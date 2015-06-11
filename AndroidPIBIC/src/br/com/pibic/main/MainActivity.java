@@ -24,7 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Main extends Activity{
+public class MainActivity extends Activity{
 	
 	String usuario;
 	String senha; 
