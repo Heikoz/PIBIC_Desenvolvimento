@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/txtSaudacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="170dp"
+        android:layout_y="114dp"
+        android:text="Olá, Lucas."
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_x="62dp"
+        android:layout_y="10dp"
+        android:src="@drawable/ufac" />
+
+    <AbsoluteLayout
+        android:layout_width="281dp"
+        android:layout_height="320dp"
+        android:layout_x="14dp"
+        android:layout_y="180dp" >
+
+        <ListView
+            android:id="@+id/lvPdfs"
+            android:layout_width="match_parent"
+            android:layout_height="167dp" >
+        </ListView>
+
+        <Button
+            android:id="@+id/buttonSair"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_x="8dp"
+            android:layout_y="262dp"
+            android:hint="Clique para sair."
+            android:onClick="sair"
+            android:text="sair" />
+
+    </AbsoluteLayout>
+
+</AbsoluteLayout>

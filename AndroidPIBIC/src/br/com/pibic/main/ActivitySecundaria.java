@@ -1,13 +1,11 @@
 package br.com.pibic.main;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import br.com.ufac.bean.User;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ActivitySecundaria extends Activity {
@@ -21,13 +19,20 @@ public class ActivitySecundaria extends Activity {
 	    // Get the message from the intent
 	    Intent intent = getIntent();
 	    User user = (User) intent.getSerializableExtra(USER);
-
-	    // Create the text view
-	    TextView textView = new TextView(this);
-	    textView.setTextSize(40);
-	    textView.setText(user.getId()+"\n"+user.getName());
+	    System.out.println(user.getName());
+	    setContentView(R.layout.tela_secundaria);
+	    TextView txtSaudacao = new TextView(this);
+	    txtSaudacao = (TextView) findViewById(R.id.txtSaudacao);
+	    
+	    txtSaudacao.setText("Olá, "+user.getFirstName());
 
 	    // Set the text view as the activity layout
-	    setContentView(textView);
+	    
 	}
+	
+	public void sair(View v){
+		finish();
+	}
+	
 }
+

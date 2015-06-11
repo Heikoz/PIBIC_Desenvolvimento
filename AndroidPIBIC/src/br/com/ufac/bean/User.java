@@ -21,4 +21,9 @@ public class User implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getFirstName(){
+		String[] firstName = name.split(" ");
+		return firstName[0];
+	}
 }
