@@ -3,12 +3,15 @@
     package="br.com.pibic.main"
     android:versionCode="1"
     android:versionName="1.0" >
+
     <uses-sdk android:minSdkVersion="4" />
-	<uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" 
-        android:theme="@android:style/Theme.Light">
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Light" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -18,11 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ActivitySecundaria">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+        <activity android:name=".ActivitySecundaria" >
+            <intent-filter>
+                <action android:name="main.ACAO_EXIBIR_SAUDACAO" />
+
+                <category android:name="main.CATEGORIA_SAUDACAO" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
+
 </manifest>

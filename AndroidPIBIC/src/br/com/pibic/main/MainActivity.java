@@ -27,7 +27,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends Activity{
-	public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
 
 	String usuario;
 	String senha; 
@@ -122,23 +121,22 @@ public class MainActivity extends Activity{
 		}
 	}
 	public void novaTela(String results) {
-		Intent intent = new Intent(this, ActivitySecundaria.class);
+		Intent intent = new Intent(ActivitySecundaria.ACAO_EXIBIR_SAUDACAO);
+		intent.addCategory(ActivitySecundaria.CATEGORIA_SAUDACAO);
 
 		User user = new User();
 		JSONObject jo = null;
-		System.out.println(results);
+		
 		try {
 			jo = new JSONObject(results);
 			user.setId(jo.getInt("ID_USUARIO"));
 			user.setName(jo.getString("NOME_USUARIO"));
-			intent.putExtra(EXTRA_MESSAGE, user);
+			intent.putExtra(ActivitySecundaria.USER, user);
 			startActivity(intent);
 
 		} catch (JSONException e) {
 			Toast.makeText(this, "ERRO", Toast.LENGTH_LONG).show();
-			Log.e("PibicAPP", "Erro na conversão da String para JsonObject");
+			Log.e("PibicAPP", "Erro na conversão dos dados do Json para User");
 		}
-
-
 	}
 }
