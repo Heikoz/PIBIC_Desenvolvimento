@@ -24,7 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Main extends Activity implements OnClickListener {
+public class Main extends Activity{
 	
 	String usuario;
 	String senha; 
@@ -32,15 +32,19 @@ public class Main extends Activity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        findViewById(R.id.my_button).setOnClickListener(this);
+        setContentView(R.layout.tela_inicial);
+        findViewById(R.id.buttonLogin);
     }
+    
+    public void onClickCancel(View arg0) {
+		Toast.makeText(this, "Saindo...", Toast.LENGTH_LONG).show();
+		finish();
+	}
 
-	@Override
-	public void onClick(View arg0) {
-		Button b = (Button)findViewById(R.id.my_button);
-		EditText edtUsuario = (EditText) findViewById(R.id.login);
-		EditText edtSenha = (EditText) findViewById(R.id.senha);
+	public void onClickLogin(View arg0) {
+		Button b = (Button)findViewById(R.id.buttonLogin);
+		EditText edtUsuario = (EditText) findViewById(R.id.edtUsuario);
+		EditText edtSenha = (EditText) findViewById(R.id.edtSenha);
 		
 		String usuario = edtUsuario.getText().toString();
 		String senha = edtSenha.getText().toString();
