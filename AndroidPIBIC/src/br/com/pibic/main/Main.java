@@ -1,4 +1,4 @@
-package com.authorwjf.http_get;
+package br.com.pibic.main;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,12 +17,18 @@ import org.apache.http.message.BasicNameValuePair;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-public class backup extends Activity implements OnClickListener {
+public class Main extends Activity implements OnClickListener {
+	
+	String usuario;
+	String senha; 
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +39,24 @@ public class backup extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View arg0) {
 		Button b = (Button)findViewById(R.id.my_button);
-		b.setClickable(false);
-		new LongRunningGetIO().execute();
+		EditText edtUsuario = (EditText) findViewById(R.id.login);
+		EditText edtSenha = (EditText) findViewById(R.id.senha);
+		
+		String usuario = edtUsuario.getText().toString();
+		String senha = edtSenha.getText().toString();
+		
+		new LongRunningGetIO(usuario, senha).execute();
 	}
 	
 	private class LongRunningGetIO extends AsyncTask <Void, Void, String> {
+	
+		String username;
+		String password;
+		
+		LongRunningGetIO(String usuario, String senha) {
+			username = usuario;
+			password = senha;
+		}
 		
 		protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
 	       InputStream in = entity.getContent();
@@ -53,24 +72,25 @@ public class backup extends Activity implements OnClickListener {
 		
 		@Override
 		protected String doInBackground(Void... params) {
-			 HttpClient httpClient = new DefaultHttpClient();
-			 //HttpContext localContext = new BasicHttpContext();
+			
+			 HttpClient httpClient = new DefaultHttpClient(); 
 			 HttpPost httpPost = new HttpPost("http://proplan.ufac.br/sieauthentication/login");
-             //HttpGet httpGet = new HttpGet("http://proplan.ufac.br/sieauthentication/login?username=teste&password=123");
              String text = null;
+             
              try {
             	 
-            	 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            	 
-            	 nameValuePairs.add(new BasicNameValuePair("username", "95744142215"));
-            	 nameValuePairs.add(new BasicNameValuePair("password", "JoaoNeto1"));
-            	 
+            	 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);	 
+            	 nameValuePairs.add(new BasicNameValuePair("username", username));
+            	 nameValuePairs.add(new BasicNameValuePair("password", password));
             	 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             	 
+            	 Log.i("Verificando", username+" e "+password);
+            	 
                    HttpResponse response = httpClient.execute(httpPost);
-                   HttpEntity entity = response.getEntity();
-                   text = getASCIIContentFromEntity(entity);
-                   //System.out.println(text);
+
+                   HttpEntity entity = response.getEntity(); 
+                   
+                text = getASCIIContentFromEntity(entity);
                    
                    
              } catch (Exception e) {
@@ -80,12 +100,11 @@ public class backup extends Activity implements OnClickListener {
 		}	
 		
 		protected void onPostExecute(String results) {
-			if (results!=null) {
-				//EditText et = (EditText)findViewById(R.id.my_edit);
-				//et.setText(results);
+			if (results.length()>5) {
+				Toast.makeText(getApplicationContext(), "Logado: "+results, Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "Usuário não encontrado.", Toast.LENGTH_LONG).show();
 			}
-			Button b = (Button)findViewById(R.id.my_button);
-			b.setClickable(true);
 		}
     }
 }
