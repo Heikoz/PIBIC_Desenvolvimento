@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class ActivitySecundaria extends Activity {
@@ -14,25 +14,22 @@ public class ActivitySecundaria extends Activity {
 	public static final String CATEGORIA_SAUDACAO = "main.CATEGORIA_SAUDACAO";
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 
-	    // Get the message from the intent
-	    Intent intent = getIntent();
-	    User user = (User) intent.getSerializableExtra(USER);
-	    System.out.println(user.getName());
-	    setContentView(R.layout.tela_secundaria);
-	    TextView txtSaudacao = new TextView(this);
-	    txtSaudacao = (TextView) findViewById(R.id.txtSaudacao);
-	    
-	    txtSaudacao.setText("Olá, "+user.getFirstName());
+		Intent intent = getIntent();
+		User user = (User) intent.getSerializableExtra(USER);
 
-	    // Set the text view as the activity layout
-	    
+		setContentView(R.layout.tela_secundaria);
+		TextView txtSaudacao = new TextView(this);
+		ListView lstView = new ListView(this);
+		txtSaudacao = (TextView) findViewById(R.id.txtSaudacao);
+		txtSaudacao.setText("Olá, "+user.getFirstName());
+
 	}
-	
+
 	public void sair(View v){
 		finish();
 	}
-	
+
 }
 
