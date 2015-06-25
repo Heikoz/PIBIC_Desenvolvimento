@@ -36,6 +36,33 @@
             android:onClick="sair"
             android:text="sair" />
 
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="162dp"
+            android:layout_y="253dp"
+            android:onClick="getPDF"
+            android:text="PDF" />
+
+        <Button
+            android:id="@+id/buttonReadFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="157dp"
+            android:layout_y="178dp"
+            android:onClick="onClick"
+            android:text="ReadFile" />
+
+        <Button
+            android:id="@+id/buttonWriteFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="80dp"
+            android:layout_y="179dp"
+            android:onClick="onClick"
+            android:text="WriteFile" />
+
     </AbsoluteLayout>
 
     <ImageView

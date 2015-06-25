@@ -2,21 +2,15 @@ package br.com.pibic.main;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.com.ufac.bean.User;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import br.com.ufac.bean.Aluno;
 
 public class MainActivity extends Activity{
 
@@ -79,20 +74,16 @@ public class MainActivity extends Activity{
 		@Override
 		protected String doInBackground(Void... params) {
 
-			HttpClient httpClient = new DefaultHttpClient(); 
-			HttpPost httpPost = new HttpPost("http://proplan.ufac.br/sieauthentication/login");
+			HttpClient httpClient = new DefaultHttpClient();
+			String url = "http://192.168.0.2:8080/Restful/aluno/"+username+"/"+password;
+			HttpGet httpGet = new HttpGet(url);
 			String text = null;
 
 			try {
 
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);	 
-				nameValuePairs.add(new BasicNameValuePair("username", username));
-				nameValuePairs.add(new BasicNameValuePair("password", password));
-				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				Log.i("Verificando URL", url);
 
-				Log.i("Verificando", username+" e "+password);
-
-				HttpResponse response = httpClient.execute(httpPost);
+				HttpResponse response = httpClient.execute(httpGet);
 
 				HttpEntity entity = response.getEntity(); 
 
@@ -106,7 +97,7 @@ public class MainActivity extends Activity{
 		}	
 
 		protected void onPostExecute(String results) {
-			if (results.equals("{}")){
+			if (results.equals("{}") || results == null || results.equals("null")){
 				Toast.makeText(getApplicationContext(), "Não foi encontrado nenhum usuário com esses dados...", Toast.LENGTH_LONG).show();
 				Log.i("PibicAPP", "Login ou senha incorreta.");
 			}else{			
@@ -124,14 +115,26 @@ public class MainActivity extends Activity{
 		Intent intent = new Intent(ActivitySecundaria.ACAO_EXIBIR_SAUDACAO);
 		intent.addCategory(ActivitySecundaria.CATEGORIA_SAUDACAO);
 
-		User user = new User();
+		Aluno aluno = new Aluno();
 		JSONObject jo = null;
-		
 		try {
+			//{"cpf":"951.969.862-00","deficiencia":"Sem DeficiÃªncia ","estado":"Acre ","nacionalidade":"Brasil ",
+			//"nascimento":"27/02/1994","naturalidade":"Rio Branco ","nome":"Vitor Lucas Pires Cordovil ",
+			//"nomeDaMae":"Rosa Maria Pinheiro Pires ","nomeDoPai":"JosÃ© Euclides Cordovil ","rg":"10491872","sexo":"Masculino "}
 			jo = new JSONObject(results);
-			user.setId(jo.getInt("ID_USUARIO"));
-			user.setName(jo.getString("NOME_USUARIO"));
-			intent.putExtra(ActivitySecundaria.USER, user);
+			aluno.setCpf(jo.getString("cpf"));
+			aluno.setDeficiencia(jo.getString("deficiencia"));
+			aluno.setEstado(jo.getString("estado"));
+			aluno.setNacionalidade(jo.getString("nacionalidade"));
+			aluno.setNascimento(jo.getString("nascimento"));
+			aluno.setNaturalidade(jo.getString("naturalidade"));
+			aluno.setNome(jo.getString("nome"));
+			aluno.setNomeDaMae(jo.getString("nomeDaMae"));
+			aluno.setNomeDoPai(jo.getString("nomeDoPai"));
+			aluno.setRg(jo.getString("rg"));
+			aluno.setSexo(jo.getString("sexo"));
+			Log.i("PibicApp", aluno.toString());
+			intent.putExtra(ActivitySecundaria.ALUNO, aluno);
 			startActivity(intent);
 
 		} catch (JSONException e) {
