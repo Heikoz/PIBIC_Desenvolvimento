@@ -76,12 +76,12 @@ public class MainActivity extends Activity{
 
 			HttpClient httpClient = new DefaultHttpClient();
 			String url = "http://192.168.0.2:8080/Restful/aluno/"+username+"/"+password;
+			Log.i("Verificando URL", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;
 
 			try {
 
-				Log.i("Verificando URL", url);
 
 				HttpResponse response = httpClient.execute(httpGet);
 
@@ -112,9 +112,10 @@ public class MainActivity extends Activity{
 		}
 	}
 	public void novaTela(String results) {
+		Log.i("results: ", results);
 		Intent intent = new Intent(ActivitySecundaria.ACAO_EXIBIR_SAUDACAO);
 		intent.addCategory(ActivitySecundaria.CATEGORIA_SAUDACAO);
-
+		
 		Aluno aluno = new Aluno();
 		JSONObject jo = null;
 		try {

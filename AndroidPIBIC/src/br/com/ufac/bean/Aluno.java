@@ -2,7 +2,6 @@ package br.com.ufac.bean;
 
 import java.io.Serializable;
 
-
 /**
  * Classe responsável por conter os atributos do Objeto Cliente
  *
@@ -10,7 +9,6 @@ import java.io.Serializable;
  * @since 23/06/2015
  * @version 1.0
  */
-
 public final class Aluno implements Serializable{
 
 	//[0]Nome João Josino Sobrinho Neto, Nome da Mãe Antonia Sebastiana de Oliveira, Nome da Pai Manoel de Melo Sobrinho
@@ -23,7 +21,7 @@ public final class Aluno implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String nome, nomeDaMae, nomeDoPai, nascimento, sexo, deficiencia, nacionalidade, estado, naturalidade;
-	private String cpf, rg;
+	private String cpf, rg, matricula;
 	
 	public String getNomeDaMae() {
 		return nomeDaMae;
@@ -112,20 +110,13 @@ public final class Aluno implements Serializable{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
-	public String getFirstName(){
-		String[] firstName = nome.split(" ");
-		return firstName[0];
+
+	public String getMatricula() {
+		return matricula;
 	}
 
-	@Override
-	public String toString() {
-		return "Aluno [nome=" + nome + ", nomeDaMae=" + nomeDaMae
-				+ ", nomeDoPai=" + nomeDoPai + ", nascimento=" + nascimento
-				+ ", sexo=" + sexo + ", deficiencia=" + deficiencia
-				+ ", nacionalidade=" + nacionalidade + ", estado=" + estado
-				+ ", naturalidade=" + naturalidade + ", cpf=" + cpf + ", rg="
-				+ rg + "]";
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
 	}
 
 	@Override
@@ -136,6 +127,8 @@ public final class Aluno implements Serializable{
 		result = prime * result
 				+ ((deficiencia == null) ? 0 : deficiencia.hashCode());
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+		result = prime * result
+				+ ((matricula == null) ? 0 : matricula.hashCode());
 		result = prime * result
 				+ ((nacionalidade == null) ? 0 : nacionalidade.hashCode());
 		result = prime * result
@@ -175,6 +168,11 @@ public final class Aluno implements Serializable{
 			if (other.estado != null)
 				return false;
 		} else if (!estado.equals(other.estado))
+			return false;
+		if (matricula == null) {
+			if (other.matricula != null)
+				return false;
+		} else if (!matricula.equals(other.matricula))
 			return false;
 		if (nacionalidade == null) {
 			if (other.nacionalidade != null)
@@ -219,4 +217,8 @@ public final class Aluno implements Serializable{
 		return true;
 	}
 
+	public String getFirstName() {
+		String[] nomes = nome.split(" ");
+		return nomes[0];
+	}	
 }

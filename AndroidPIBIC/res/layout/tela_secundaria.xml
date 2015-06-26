@@ -37,31 +37,40 @@
             android:text="sair" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/buttonWriteFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="162dp"
-            android:layout_y="253dp"
-            android:onClick="getPDF"
-            android:text="PDF" />
+            android:layout_x="23dp"
+            android:layout_y="184dp"
+            android:onClick="onClick"
+            android:text="WriteFile" />
 
         <Button
             android:id="@+id/buttonReadFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="157dp"
-            android:layout_y="178dp"
+            android:layout_x="108dp"
+            android:layout_y="184dp"
             android:onClick="onClick"
             android:text="ReadFile" />
 
         <Button
-            android:id="@+id/buttonWriteFile"
+            android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_x="80dp"
-            android:layout_y="179dp"
-            android:onClick="onClick"
-            android:text="WriteFile" />
+            android:layout_x="122dp"
+            android:layout_y="256dp"
+            android:onClick="getPDF"
+            android:text="PDF" />
+
+        <EditText
+            android:id="@+id/edtTipoPDF"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_x="202dp"
+            android:layout_y="188dp"
+            android:ems="10"
+            android:inputType="number" />
 
     </AbsoluteLayout>
 

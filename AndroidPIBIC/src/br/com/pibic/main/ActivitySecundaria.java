@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +30,13 @@ public class ActivitySecundaria extends Activity {
 	public static final String ACAO_EXIBIR_SAUDACAO = "main.ACAO_EXIBIR_SAUDACAO";
 	public static final String CATEGORIA_SAUDACAO = "main.CATEGORIA_SAUDACAO";
 	private TextView txtSaudacao;
+	private EditText edtTipoPdf;
 	private ListView lstView;
 	private ManageFile manageFile;
+	public final static String[] tiposRelatorios = {"atestadoMatricula", "atestadoMatriculaEstrangeiro",
+		"comprovanteMatricula", "fichaCadastral", "historicoEscolarSimplificado", "integralizacaoCurricular",
+		"solicitacaoMatricula","com/comprovanteMatricula", "com/historicoEscolarCRAprovados"}; 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,7 +45,7 @@ public class ActivitySecundaria extends Activity {
 		Aluno aluno = (Aluno) intent.getSerializableExtra(ALUNO);
 
 		setContentView(R.layout.tela_secundaria);
-
+		edtTipoPdf = (EditText) findViewById(R.id.edtTipoPDF);
 		lstView = (ListView) findViewById(R.id.lvPdfs);
 		txtSaudacao = (TextView) findViewById(R.id.txtSaudacao);
 		txtSaudacao.setText("Olá, "+aluno.getFirstName());
@@ -51,77 +57,47 @@ public class ActivitySecundaria extends Activity {
 		try {
 			switch (v.getId()) {
 			case R.id.buttonReadFile: // Faz a leitura do arquivo    
-
+				manageFile.getStateSDcard();
 				// Verifica se o sdcard tem permissão para leitura
 				if (manageFile.isSdCardAvailable() && 
 						(manageFile.isSdCardReadableOnly() || 
 								manageFile.isSdCardWritableReadable())) {
-					manageFile.getStateSDcard();
+
 					Log.i("Leitura do arquivo: ", manageFile.readFile());                    
-				}
-				else {
-					Toast.makeText(this, 
-							"O cartão SD não está disponível, ou não permite" +
-									" leitura", Toast.LENGTH_SHORT).show();
-				}            
-				break;
-
-			case R.id.buttonWriteFile: // Faz a escrita do arquivo
-
-				// Verifica se o sdcard tem permissão para escrita
-				if (manageFile.isSdCardAvailable() &&
-						manageFile.isSdCardWritableReadable()) {
-					// Avisa o usuário se a gravação foi bem sucedida
-					if(manageFile.WriteFile("Teste do Pibic") == 
-							true){
-						Toast.makeText(this, 
-								"Texto gravado com sucesso.",
-								Toast.LENGTH_SHORT).show();
-					}
-					else{
-						Toast.makeText(this, 
-								"Não foi possível escrever o texto.", 
-								Toast.LENGTH_SHORT).show();
-					}
-				}
-				else {
-					Toast.makeText(this, 
-							"O cartão SD não está disponível, ou não permite escrita.", 
-							Toast.LENGTH_SHORT).show();                    
-				}        
-
-				break;
-
-			default:
-				break;
+				}           
 			}
-
 		} catch (FileNotFoundException e) {
 			Log.e("TesteStorage", e.toString());
 		} catch (IOException e) {
 			Log.e("TesteStorage", e.toString());
 		}
-
 	}
 
 	public void getPDF(View v){
-		new HttpAsyncTask().execute("http://192.168.0.2:8080/Restful/aluno/pdf");
+
+		if (!edtTipoPdf.getText().equals("")){
+			int num = Integer.parseInt(edtTipoPdf.getText().toString());
+			if (num>-1 && num <9)
+				new HttpAsyncTask().execute("http://192.168.0.2:8080/Restful/aluno/pdf/"+edtTipoPdf.getText(), tiposRelatorios[num]+".pdf");
+			else
+				Toast.makeText(getApplicationContext(), "Entre com valores de 0 a 8", Toast.LENGTH_LONG).show();
+		}
+		else
+			Toast.makeText(getApplicationContext(), "Entre com valores de 0 a 8 para recuperar um pdf", Toast.LENGTH_LONG).show();
 	}
 
 	public void sair(View v){
 		finish();
 	}
 
-	public String GET(String url){
+	public String GET(String url, String fileName){
 		InputStream inputStream = null;
 		try {
 
 			HttpClient httpclient = new DefaultHttpClient();
-			Log.i("PibicAppStorage", "AQUI");
 			HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-			Log.i("PibicAppStorage", "AQUI 22");
 			inputStream = httpResponse.getEntity().getContent();
-			if (savePDF("teste.pdf", inputStream))
+			if (savePDF(fileName, inputStream))
 				return "PDF armazenado com successo";
 
 		} catch (Exception e) {
@@ -130,20 +106,13 @@ public class ActivitySecundaria extends Activity {
 		return "O PDF não foi armazenado com successo";
 	}
 
-	private boolean savePDF(String fileName, InputStream inputStream) {	
-		/* Checks if external storage is available for read and write */
-		String state = Environment.getExternalStorageState();
-		Log.i("ExternalStorageState(): ", state);
-		if (!Environment.MEDIA_MOUNTED.equals(state)){
-			Log.e("PibicAppStorage", "armazenamento externo não está disponível.");
-			return false;
-		}
-
+	private boolean savePDF(String fileName, InputStream inputStream) {
 		OutputStream outputStream = null; 
 
 		// write the inputStream to a FileOutputStream
 		try {
-			outputStream = new FileOutputStream(createDir());
+			File file = new File(getApplicationContext().getExternalFilesDir(null), fileName);
+			outputStream = new FileOutputStream(file);
 			int read = 0;
 			byte[] bytes = new byte[1024];
 
@@ -174,27 +143,26 @@ public class ActivitySecundaria extends Activity {
 	}
 
 	//cria um diretório dentro da pasta de download da APP.
-	public File createDir() {
+	public File createDir(String fileName) {
 		// Get the directory for the user's public pictures directory. 
 		File file = new File(Environment.getExternalStoragePublicDirectory(
 				Environment.DIRECTORY_DOWNLOADS), "pdfs ufac");
 		file.mkdirs();
 
 		return new File(Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_DOWNLOADS), "teste.pdf");
+				Environment.DIRECTORY_DOWNLOADS), fileName);
 	}
 
 	private class HttpAsyncTask extends AsyncTask<String, Void, String> {
 		@Override
-		protected String doInBackground(String... urls) {
-
-			return GET(urls[0]);
+		protected String doInBackground(String... dados) {
+			//[0] = url  [1] = nome do arquivo
+			return GET(dados[0], dados[1]);
 		}
 		@Override
 		protected void onPostExecute(String result) {
 			Log.e("PibicApp", "Resultado: "+result);
 		}
 	}
-
 }
 

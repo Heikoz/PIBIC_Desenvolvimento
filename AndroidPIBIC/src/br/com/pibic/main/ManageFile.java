@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import android.content.Context;
 import android.os.Environment;
@@ -19,28 +20,6 @@ public class ManageFile {
     
     public ManageFile(Context context){
         this.context = context;
-    }
-
-    /**
-     * Escreve no arquivo texto.
-     * @param text Texto a ser escrito.
-     * @return True se o texto foi escrito com sucesso.
-     */
-    public boolean WriteFile(String text){
-        try {
-            File file = new File(context.getExternalFilesDir(null),
-                "romar.txt");
-            FileOutputStream out = new FileOutputStream(file, true);
-            out.write(text.getBytes());
-            out.write("\n".getBytes());
-            out.flush();
-            out.close();    
-            return true;
-            
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-            return false;
-        }
     }
     
     /**
