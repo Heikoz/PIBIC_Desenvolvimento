@@ -75,7 +75,7 @@ public class MainActivity extends Activity{
 		protected String doInBackground(Void... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			String url = "http://172.18.101.223:8080/Restful/aluno/"+username+"/"+password;
+			String url = "http://172.18.97.210:8080/Restful/aluno/"+username+"/"+password;
 			Log.i("Verificando URL", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;
@@ -113,8 +113,8 @@ public class MainActivity extends Activity{
 	}
 	public void novaTela(String results) {
 		Log.i("results: ", results);
-		Intent intent = new Intent(ActivitySecundaria.ACAO_EXIBIR_SAUDACAO);
-		intent.addCategory(ActivitySecundaria.CATEGORIA_SAUDACAO);
+		Intent intent = new Intent(ActivityMenu.ACAO_EXIBIR_SAUDACAO_MENU);
+		intent.addCategory(ActivityMenu.CATEGORIA_SAUDACAO_MENU);
 		
 		Aluno aluno = new Aluno();
 		JSONObject jo = null;
@@ -135,7 +135,7 @@ public class MainActivity extends Activity{
 			aluno.setRg(jo.getString("rg"));
 			aluno.setSexo(jo.getString("sexo"));
 			Log.i("PibicApp", aluno.toString());
-			intent.putExtra(ActivitySecundaria.ALUNO, aluno);
+			intent.putExtra(ActivityMenu.ALUNO, aluno);
 			startActivity(intent);
 
 		} catch (JSONException e) {

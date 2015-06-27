@@ -23,14 +23,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="br.com.pibic.main.ActivitySecundaria" >
+        <activity android:name="br.com.pibic.main.ActivityRelatorios" >
             <intent-filter>
                 <action android:name="main.ACAO_EXIBIR_SAUDACAO" />
-
                 <category android:name="main.CATEGORIA_SAUDACAO" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+        
+        <activity android:name="br.com.pibic.main.ActivityMenu" >
+            <intent-filter>
+                <action android:name="main.ACAO_EXIBIR_SAUDACAO_MENU" />
+                <category android:name="main.CATEGORIA_SAUDACAO_MENU" />
+      
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>

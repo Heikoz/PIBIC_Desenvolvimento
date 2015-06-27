@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import br.com.ufac.bean.Aluno;
 
-public class ActivitySecundaria extends Activity {
+public class ActivityRelatorios extends Activity {
 	public static final String ALUNO = "main.ALUNO";
 	public static final String ACAO_EXIBIR_SAUDACAO = "main.ACAO_EXIBIR_SAUDACAO";
 	public static final String CATEGORIA_SAUDACAO = "main.CATEGORIA_SAUDACAO";
@@ -46,49 +46,52 @@ public class ActivitySecundaria extends Activity {
 		Intent intent = getIntent();
 		aluno = (Aluno) intent.getSerializableExtra(ALUNO);
 
-		setContentView(R.layout.tela_secundaria);
-		edtTipoPdf = (EditText) findViewById(R.id.edtTipoPDF);
-		lstView = (ListView) findViewById(R.id.lvPdfs);
+		setContentView(R.layout.tela_relatorios);
 		txtSaudacao = (TextView) findViewById(R.id.txtSaudacao);
 		txtSaudacao.setText("Olá, "+aluno.getFirstName());
-		manageFile = new ManageFile(getApplicationContext());
+		Log.i("Aviso","Aluno Aqui"+aluno);
 	}
 
 	public void onClick(View v) {
-
-		try {
+		
+		Log.i("ERRO", "ENTROU AQUI?!");
+		
 			switch (v.getId()) {
-			case R.id.buttonReadFile: // Faz a leitura do arquivo    
-				manageFile.getStateSDcard();
-				// Verifica se o sdcard tem permissão para leitura
-				if (manageFile.isSdCardAvailable() && 
-						(manageFile.isSdCardReadableOnly() || 
-								manageFile.isSdCardWritableReadable())) {
-
-					Log.i("Leitura do arquivo: ", manageFile.readFile());                    
-				}           
+				
+			case R.id.buttonAtestados:
+				getPDF(0);
+			
+			case R.id.buttonAtestadosEstrangeiros:
+				getPDF(1);
+			
+			case R.id.buttonComprovanteMatricula:
+				getPDF(2);
+			
+			case R.id.buttonFichaCadastral:
+				getPDF(3);
+			
+			case R.id.buttonHistoricoEscolar:
+				getPDF(4);
+			
+			case R.id.buttonHistoricoIntegralizacao:
+				getPDF(5);
+			
+			case R.id.buttonSolicitacaoMatricula:
+				getPDF(6);
+				
+			case R.id.buttonComprovanteMatriculaSIE:
+				getPDF(7);			
+					
+			case R.id.buttonHistoricoEscolarCR:
+				getPDF(8);
+			
 			}
-		} catch (FileNotFoundException e) {
-			Log.e("TesteStorage", e.toString());
-		} catch (IOException e) {
-			Log.e("TesteStorage", e.toString());
-		}
+			
 	}
 
-	public void getPDF(View v){
-
-		if (!edtTipoPdf.getText().equals("")){
-			int num = Integer.parseInt(edtTipoPdf.getText().toString());
-			if (num>-1 && num <9){
-				Calendar c = Calendar.getInstance(); 
-				
-				new HttpAsyncTask().execute("http://172.18.101.223:8080/Restful/aluno/pdf/"+edtTipoPdf.getText(), tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
-			}
-			else
-				Toast.makeText(getApplicationContext(), "Entre com valores de 0 a 8", Toast.LENGTH_LONG).show();
-		}
-		else
-			Toast.makeText(getApplicationContext(), "Entre com valores de 0 a 8 para recuperar um pdf", Toast.LENGTH_LONG).show();
+	public void getPDF(int aux){
+			Calendar c = Calendar.getInstance(); 
+			new HttpAsyncTask().execute("http://172.18.97.210:8080/Restful/aluno/pdf/"+aux, tiposRelatorios[aux]+"-"+aluno.getFirstName()+getData(c)+".pdf");
 	}
 
 	private String getData(Calendar c) {
@@ -121,7 +124,7 @@ public class ActivitySecundaria extends Activity {
 	private boolean savePDF(String fileName, InputStream inputStream) {
 		OutputStream outputStream = null; 
 
-		// write the inputStream to a FileOutputStream
+		 //write the inputStream to a FileOutputStream
 		try {
 			File file = new File(getApplicationContext().getExternalFilesDir(null), fileName);
 			outputStream = new FileOutputStream(file);
@@ -173,7 +176,7 @@ public class ActivitySecundaria extends Activity {
 		}
 		@Override
 		protected void onPostExecute(String result) {
-			Log.i("PibicApp", "Resultado: "+result);
+		Log.i("PibicApp", "Resultado: "+result);
 		}
 	}
 }

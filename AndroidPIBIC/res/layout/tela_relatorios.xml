@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:fillViewport="true">
+ <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:background="#ffffff">
+
+     
+     <!--  Header Starts-->
+		<LinearLayout android:id="@+id/header"
+   		 android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+   		android:background="@layout/headergradient"
+    	android:paddingTop="20dip"
+    	android:orientation="vertical"
+    	android:paddingBottom="20dip">
+        <!-- Logo Start-->
+        <ImageView android:src="@drawable/logo_portal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+        
+        <TextView 
+	        android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
+            android:gravity="center"
+            android:text="UFAC"
+            android:textSize="16dp"
+            android:textColor="#FFFFFF"
+            
+            />
+        
+        
+        <!-- Logo Ends -->
+		</LinearLayout>
+		
+		<RelativeLayout android:id="@+id/saudacaoBar"
+   		android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:padding="5dp"
+    	android:gravity="right"
+    	android:layout_below="@+id/header"
+    	android:background="#f4f4f4"
+    	>
+    	
+		<TextView
+        android:id="@+id/txtSaudacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seja bem-vindo Lucas Cordovil."
+        android:textSize="14dp" />
+		</RelativeLayout>
+		
+		<!--  Header Ends -->
+     
+     <!-- Buttons -->
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="35dip"
+          android:layout_below="@id/header">
+          
+          <Button android:id="@+id/buttonAtestados"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Atestado Matrícula"/>
+          
+           <Button android:id="@+id/buttonAtestadosEstrangeiros"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Atestado Matrícula Estrangeiros"/>
+          
+			          
+           <Button android:id="@+id/buttonFichaCadastral"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Ficha Cadastral do Aluno"/>
+           
+                     
+           <Button android:id="@+id/buttonHistoricoEscolar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Histórico Escolar Simplificado"/>
+           
+                     
+           <Button android:id="@+id/buttonHistoricoIntegralizacao"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Histórico Integralização"/>
+           
+                     
+           <Button android:id="@+id/buttonSolicitacaoMatricula"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Solicitação de Matrícula"/>
+           
+                     
+           <Button android:id="@+id/buttonComprovanteMatricula"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Comprovante de Matrícula"/>
+                     
+           <Button android:id="@+id/buttonComprovanteMatriculaSIE"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Comprovante de Matrícula SIE"/>
+           
+                     
+           <Button android:id="@+id/buttonHistoricoEscolarCR"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:drawableLeft="@drawable/download"
+                android:onClick="onClick"
+                android:text="Histórico Escolar CR - Aprovados"/>
+           
+          <!-- Link to Registration Screen -->
+ 
+</LinearLayout>
+<!-- Buttons end -->
+
+
+   
+
+
+</RelativeLayout>
+</ScrollView>
