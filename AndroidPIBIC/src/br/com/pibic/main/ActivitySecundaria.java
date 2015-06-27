@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -33,6 +34,7 @@ public class ActivitySecundaria extends Activity {
 	private EditText edtTipoPdf;
 	private ListView lstView;
 	private ManageFile manageFile;
+	private Aluno aluno; 
 	public final static String[] tiposRelatorios = {"atestadoMatricula", "atestadoMatriculaEstrangeiro",
 		"comprovanteMatricula", "fichaCadastral", "historicoEscolarSimplificado", "integralizacaoCurricular",
 		"solicitacaoMatricula","com/comprovanteMatricula", "com/historicoEscolarCRAprovados"}; 
@@ -42,7 +44,7 @@ public class ActivitySecundaria extends Activity {
 		super.onCreate(savedInstanceState);
 
 		Intent intent = getIntent();
-		Aluno aluno = (Aluno) intent.getSerializableExtra(ALUNO);
+		aluno = (Aluno) intent.getSerializableExtra(ALUNO);
 
 		setContentView(R.layout.tela_secundaria);
 		edtTipoPdf = (EditText) findViewById(R.id.edtTipoPDF);
@@ -77,13 +79,23 @@ public class ActivitySecundaria extends Activity {
 
 		if (!edtTipoPdf.getText().equals("")){
 			int num = Integer.parseInt(edtTipoPdf.getText().toString());
-			if (num>-1 && num <9)
-				new HttpAsyncTask().execute("http://192.168.0.2:8080/Restful/aluno/pdf/"+edtTipoPdf.getText(), tiposRelatorios[num]+".pdf");
+			if (num>-1 && num <9){
+				Calendar c = Calendar.getInstance(); 
+				
+				new HttpAsyncTask().execute("http://172.19.0.91:8080/Restful/aluno/pdf/"+edtTipoPdf.getText(), tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
+			}
 			else
 				Toast.makeText(getApplicationContext(), "Entre com valores de 0 a 8", Toast.LENGTH_LONG).show();
 		}
 		else
 			Toast.makeText(getApplicationContext(), "Entre com valores de 0 a 8 para recuperar um pdf", Toast.LENGTH_LONG).show();
+	}
+
+	private String getData(Calendar c) {
+		String date = c.get(Calendar.DAY_OF_MONTH)+"";
+		date += (c.get(Calendar.MONTH)+1)+"";
+		date += c.get(Calendar.YEAR);
+		return date;
 	}
 
 	public void sair(View v){
@@ -161,7 +173,7 @@ public class ActivitySecundaria extends Activity {
 		}
 		@Override
 		protected void onPostExecute(String result) {
-			Log.e("PibicApp", "Resultado: "+result);
+			Log.i("PibicApp", "Resultado: "+result);
 		}
 	}
 }

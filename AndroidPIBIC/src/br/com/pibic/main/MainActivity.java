@@ -75,7 +75,7 @@ public class MainActivity extends Activity{
 		protected String doInBackground(Void... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			String url = "http://192.168.0.2:8080/Restful/aluno/"+username+"/"+password;
+			String url = "http://172.19.0.91:8080/Restful/aluno/"+username+"/"+password;
 			Log.i("Verificando URL", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;
