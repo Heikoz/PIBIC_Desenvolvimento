@@ -41,6 +41,14 @@
             </intent-filter>
         </activity>
         
+        <activity android:name="br.com.pibic.main.HorariosAluno" >
+            <intent-filter>
+                <action android:name="main.ACAO_EXIBIR_HORARIOS" />
+                <category android:name="main.CATEGORIA_HORARIOS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>

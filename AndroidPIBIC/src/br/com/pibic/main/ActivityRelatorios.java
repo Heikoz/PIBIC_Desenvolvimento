@@ -31,8 +31,6 @@ public class ActivityRelatorios extends Activity {
 	public static final String ACAO_EXIBIR_SAUDACAO = "main.ACAO_EXIBIR_SAUDACAO";
 	public static final String CATEGORIA_SAUDACAO = "main.CATEGORIA_SAUDACAO";
 	private TextView txtSaudacao;
-	private EditText edtTipoPdf;
-	private ListView lstView;
 	private ManageFile manageFile;
 	private Aluno aluno; 
 	public final static String[] tiposRelatorios = {"atestadoMatricula", "atestadoMatriculaEstrangeiro",
@@ -60,38 +58,46 @@ public class ActivityRelatorios extends Activity {
 				
 			case R.id.buttonAtestados:
 				getPDF(0);
+				break;
 			
 			case R.id.buttonAtestadosEstrangeiros:
 				getPDF(1);
+				break;
 			
 			case R.id.buttonComprovanteMatricula:
 				getPDF(2);
+				break;
 			
 			case R.id.buttonFichaCadastral:
 				getPDF(3);
+				break;
 			
 			case R.id.buttonHistoricoEscolar:
 				getPDF(4);
+				break;
 			
 			case R.id.buttonHistoricoIntegralizacao:
 				getPDF(5);
+				break;
 			
 			case R.id.buttonSolicitacaoMatricula:
 				getPDF(6);
+				break;
 				
 			case R.id.buttonComprovanteMatriculaSIE:
-				getPDF(7);			
+				getPDF(7);		
+				break;
 					
 			case R.id.buttonHistoricoEscolarCR:
 				getPDF(8);
+				break;
 			
 			}
-			
 	}
 
-	public void getPDF(int aux){
+	public void getPDF(int num){
 			Calendar c = Calendar.getInstance(); 
-			new HttpAsyncTask().execute("http://172.18.97.210:8080/Restful/aluno/pdf/"+aux, tiposRelatorios[aux]+"-"+aluno.getFirstName()+getData(c)+".pdf");
+			new HttpAsyncTask().execute("http://172.16.108.37:8080/Restful/aluno/pdf/"+num, tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
 	}
 
 	private String getData(Calendar c) {
@@ -126,8 +132,9 @@ public class ActivityRelatorios extends Activity {
 
 		 //write the inputStream to a FileOutputStream
 		try {
-			File file = new File(getApplicationContext().getExternalFilesDir(null), fileName);
-			outputStream = new FileOutputStream(file);
+			//File file = new File(getApplicationContext().getExternalFilesDir(null), fileName);
+			//Salvando na pasta de downloads
+			outputStream = new FileOutputStream(createDir(fileName));
 			int read = 0;
 			byte[] bytes = new byte[1024];
 
@@ -137,6 +144,7 @@ public class ActivityRelatorios extends Activity {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			if (inputStream != null) {
 				try {

@@ -22,15 +22,18 @@ import android.widget.Toast;
 import br.com.ufac.bean.Aluno;
 
 public class MainActivity extends Activity{
+	private EditText edtUsuario;
+	private EditText edtSenha;
 
-	String usuario;
-	String senha; 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tela_inicial);
-		findViewById(R.id.buttonLogin);
+		edtUsuario = (EditText) findViewById(R.id.edtUsuario);
+		edtSenha = (EditText) findViewById(R.id.edtSenha);
+		edtUsuario.setText("95196986200");
+		edtSenha.setText("lukass13");
 	}
 
 	public void onClickCancel(View arg0) {
@@ -39,9 +42,8 @@ public class MainActivity extends Activity{
 	}
 
 	public void onClickLogin(View arg0) {
-		EditText edtUsuario = (EditText) findViewById(R.id.edtUsuario);
-		EditText edtSenha = (EditText) findViewById(R.id.edtSenha);
-
+		
+		
 		String usuario = edtUsuario.getText().toString();
 		String senha = edtSenha.getText().toString();
 
@@ -75,7 +77,7 @@ public class MainActivity extends Activity{
 		protected String doInBackground(Void... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			String url = "http://172.18.97.210:8080/Restful/aluno/"+username+"/"+password;
+			String url = "http://172.16.108.37:8080/Restful/aluno/"+username+"/"+password;
 			Log.i("Verificando URL", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;
