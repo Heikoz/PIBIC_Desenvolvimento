@@ -1,79 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:background="@layout/repeat"
-        android:layout_x="0dp"
-        android:layout_y="0dp"
-        android:src="@drawable/portal" />
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:fillViewport="true">
+  <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:background="#ffffff">
+ 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtSaudacao"
-        android:layout_alignRight="@+id/txtSaudacao"
-        android:layout_below="@+id/txtSaudacao"
-        android:layout_marginTop="20dp"
-        android:text="Senha:"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <EditText
-        android:id="@+id/edtSenha"
-        android:layout_width="160dp"
-        android:layout_height="38dp"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:ems="10"
-        android:inputType="textPassword" />
-
-    <TextView
-        android:id="@+id/txtSaudacao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView2"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="112dp"
-        android:text="Usuario:"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonCancelar"
-        android:layout_alignBottom="@+id/buttonCancelar"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignRight="@+id/textView2"
-        android:onClick="onClickLogin"
-        android:text="Login" />
-
-    <Button
-        android:id="@+id/buttonCancelar"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edtSenha"
-        android:layout_below="@+id/edtSenha"
-        android:layout_marginTop="83dp"
-        android:onClick="onClickCancel"
-        android:text="Cancelar" />
-
-    <EditText
-        android:id="@+id/edtUsuario"
-        android:layout_width="160dp"
-        android:layout_height="38dp"
-        android:layout_above="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:ems="10"
-        android:inputType="number" />
-
-</RelativeLayout>
+<!--  Header Starts-->
+<LinearLayout android:id="@+id/header"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@layout/headergradient"
+    android:paddingTop="20dip"
+    android:paddingBottom="20dip">
+        <!-- Logo Start-->
+        <ImageView android:src="@drawable/logo_portal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+        <!-- Logo Ends -->
+</LinearLayout>
+<!--  Header Ends -->
+ 
+    <!-- Footer Start -->
+	<LinearLayout android:id="@+id/footer"
+    android:layout_width="fill_parent"
+    android:layout_height="20dip"
+    android:orientation="horizontal"
+    android:layout_alignParentBottom="true">
+   	
+	    <TextView                 
+	        	android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#DCDCDC"
+				android:gravity="center"
+                android:textSize="10dp"
+                android:text="Desenvolvido por: Vitor Lucas | João Neto (PIBIT 2015)"/>
+	    
+</LinearLayout>
+<!-- Footer Ends -->
+ 
+      <!-- Login Form -->
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="10dip"
+          android:layout_below="@id/header">
+          <!--  Email Label -->
+          <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="Usuário"/>
+          <EditText 
+              	android:id="@+id/edtUsuario"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"/>
+          <!--  Password Label -->
+          <TextView android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="Senha:"/>
+          <EditText
+              	android:id="@+id/edtSenha" 
+              	android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:singleLine="true"
+                android:password="true"/>
+          <!-- Login button -->
+          <Button android:id="@+id/buttonLogin"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:onClick="onClickLogin"
+                android:text="Login"/>
+          
+           <Button android:id="@+id/buttonCancelar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:onClick="onClickCancel"
+                android:text="Sair"/>
+          
+          <!-- Link to Registration Screen -->
+ 
+</LinearLayout>
+<!-- Login Form Ends -->
+ 
+  </RelativeLayout>
+</ScrollView>

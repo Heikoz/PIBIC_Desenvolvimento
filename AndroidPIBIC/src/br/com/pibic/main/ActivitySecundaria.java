@@ -82,7 +82,7 @@ public class ActivitySecundaria extends Activity {
 			if (num>-1 && num <9){
 				Calendar c = Calendar.getInstance(); 
 				
-				new HttpAsyncTask().execute("http://172.19.0.91:8080/Restful/aluno/pdf/"+edtTipoPdf.getText(), tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
+				new HttpAsyncTask().execute("http://172.18.101.223:8080/Restful/aluno/pdf/"+edtTipoPdf.getText(), tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
 			}
 			else
 				Toast.makeText(getApplicationContext(), "Entre com valores de 0 a 8", Toast.LENGTH_LONG).show();
