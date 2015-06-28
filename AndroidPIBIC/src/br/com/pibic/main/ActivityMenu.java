@@ -99,7 +99,7 @@ public class ActivityMenu extends Activity{
 		protected String doInBackground(Void... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			String url = "http://172.16.108.37:8080/Restful/aluno/horarios";
+			String url = "http://192.168.0.5:8080/Restful/aluno/horarios";
 			Log.i("Verificando URLHorarios", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;
@@ -140,14 +140,14 @@ public class ActivityMenu extends Activity{
 		Log.i("results: ", results);
 		Intent intent = new Intent(ActivityMenu.ACAO_EXIBIR_SAUDACAO_MENU);
 		intent.addCategory(ActivityMenu.CATEGORIA_SAUDACAO_MENU);
-		
+
 		Aluno aluno = new Aluno();
 		JSONObject jo = null;
 		try {
 			//{"cpf":"951.969.862-00","deficiencia":"Sem Deficiência ","estado":"Acre ","nacionalidade":"Brasil ",
 			//"nascimento":"27/02/1994","naturalidade":"Rio Branco ","nome":"Vitor Lucas Pires Cordovil ",
 			//"nomeDaMae":"Rosa Maria Pinheiro Pires ","nomeDoPai":"José Euclides Cordovil ","rg":"10491872","sexo":"Masculino "}
-			
+
 			jo = new JSONObject(results);
 			//aluno.setRg(jo.getString("rg"));
 			//aluno.setSexo(jo.getString("sexo"));

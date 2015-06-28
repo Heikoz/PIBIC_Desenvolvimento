@@ -1,7 +1,6 @@
 package br.com.pibic.main;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,16 +13,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import br.com.ufac.bean.Aluno;
 
 public class ActivityRelatorios extends Activity {
@@ -31,7 +28,6 @@ public class ActivityRelatorios extends Activity {
 	public static final String ACAO_EXIBIR_SAUDACAO = "main.ACAO_EXIBIR_SAUDACAO";
 	public static final String CATEGORIA_SAUDACAO = "main.CATEGORIA_SAUDACAO";
 	private TextView txtSaudacao;
-	private ManageFile manageFile;
 	private Aluno aluno; 
 	public final static String[] tiposRelatorios = {"atestadoMatricula", "atestadoMatriculaEstrangeiro",
 		"comprovanteMatricula", "fichaCadastral", "historicoEscolarSimplificado", "integralizacaoCurricular",
@@ -97,7 +93,7 @@ public class ActivityRelatorios extends Activity {
 
 	public void getPDF(int num){
 			Calendar c = Calendar.getInstance(); 
-			new HttpAsyncTask().execute("http://172.16.108.37:8080/Restful/aluno/pdf/"+num, tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
+			new HttpAsyncTask().execute("http://192.168.0.5:8080/Restful/aluno/pdf/"+num, tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
 	}
 
 	private String getData(Calendar c) {
@@ -129,12 +125,18 @@ public class ActivityRelatorios extends Activity {
 
 	private boolean savePDF(String fileName, InputStream inputStream) {
 		OutputStream outputStream = null; 
-
+		//FileOutputStream fos = null;
 		 //write the inputStream to a FileOutputStream
 		try {
 			//File file = new File(getApplicationContext().getExternalFilesDir(null), fileName);
 			//Salvando na pasta de downloads
-			outputStream = new FileOutputStream(createDir(fileName));
+			if (!isExternalStorageWritable())
+				return false;
+			
+			outputStream = new FileOutputStream(getDownloadDir(fileName));
+			Log.i("STORAGE", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"");
+			 //fos = openFileOutput(fileName, Context.MODE_WORLD_WRITEABLE);
+			 //Log.i("STORAGE: ", "File= "+fileName+"\n"+fos.toString()+"\n"+fos.getFD().toString());
 			int read = 0;
 			byte[] bytes = new byte[1024];
 
@@ -153,6 +155,7 @@ public class ActivityRelatorios extends Activity {
 					e.printStackTrace();
 				}
 			}
+			//if (outputStream != null) {
 			if (outputStream != null) {
 				try {
 					outputStream.close();
@@ -168,12 +171,26 @@ public class ActivityRelatorios extends Activity {
 	//cria um diretório dentro da pasta de download da APP.
 	public File createDir(String fileName) {
 		// Get the directory for the user's public pictures directory. 
-		File file = new File(Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_DOWNLOADS), "pdfs ufac");
-		file.mkdirs();
-
-		return new File(Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_DOWNLOADS), fileName);
+//		File file = new File(Environment.getExternalStoragePublicDirectory(
+//				Environment.DIRECTORY_DOWNLOADS), "pdfs ufac");
+//		file.mkdirs();
+//
+//		return new File(Environment.getExternalStoragePublicDirectory(
+//				Environment.DIRECTORY_DOWNLOADS), fileName);
+		return Environment.getExternalStorageDirectory();
+	}
+	
+	public boolean isExternalStorageWritable() {
+	    String state = Environment.getExternalStorageState();
+	    if (Environment.MEDIA_MOUNTED.equals(state)) {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	public File getDownloadDir(String fileName) {
+	    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+	    return file;
 	}
 
 	private class HttpAsyncTask extends AsyncTask<String, Void, String> {
