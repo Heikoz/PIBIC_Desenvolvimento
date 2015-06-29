@@ -52,6 +52,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+        <activity android:name="br.com.pibic.main.ActivitySobre" >
+            <intent-filter>
+                <action android:name="main.ACAO_EXIBIR_SOBRE" />
+                <category android:name="main.CATEGORIA_SOBRE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>

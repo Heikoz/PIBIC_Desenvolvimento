@@ -66,6 +66,7 @@
           android:layout_height="wrap_content"
           android:padding="35dip"
           android:layout_below="@id/header">
+
           
           <Button android:id="@+id/buttonAtestados"
                 android:layout_width="fill_parent"
@@ -146,13 +147,15 @@
                 android:text="Histórico Escolar CR - Aprovados"/>
            
           <!-- Link to Registration Screen -->
+          
+          
+          
+
  
 </LinearLayout>
 <!-- Buttons end -->
 
-
-   
-
-
 </RelativeLayout>
+ 
+ 
 </ScrollView>

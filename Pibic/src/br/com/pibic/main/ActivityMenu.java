@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import br.com.pibic.main.R.id;
 import br.com.ufac.bean.Aluno;
 import br.com.ufac.bean.Horario;
 
@@ -63,6 +64,13 @@ public class ActivityMenu extends Activity{
 			novaTela();
 			break;
 
+		
+		case R.id.buttonSobre:
+			intent = new Intent(ActivitySobre.ACAO_EXIBIR_SOBRE);
+			intent.addCategory(ActivitySobre.CATEGORIA_SOBRE);
+			startActivity(intent);
+			break;
+			
 		default:
 			break;
 		}
@@ -97,7 +105,7 @@ public class ActivityMenu extends Activity{
 		protected String doInBackground(Void... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			String url = "http://192.168.0.3:8080/Restful/aluno/horarios";
+			String url = "http://192.168.0.168:8080/Restful/aluno/horarios";
 			Log.i("Verificando URLHorarios", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;

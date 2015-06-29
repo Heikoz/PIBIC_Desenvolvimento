@@ -103,8 +103,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
-                android:onClick="onClickSobre"
-                android:drawableLeft="@drawable/sobre"
+                android:onClick="onClick"
+                android:drawableLeft="@drawable/sobreapp"
                 android:text="Sobre o Aplicativo" />
           
 

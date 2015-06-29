@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import br.com.ufac.bean.Aluno;
 
 public class ActivityRelatorios extends Activity {
@@ -30,7 +32,7 @@ public class ActivityRelatorios extends Activity {
 	private Aluno aluno; 
 	public final static String[] tiposRelatorios = {"atestadoMatricula", "atestadoMatriculaEstrangeiro",
 		"comprovanteMatricula", "fichaCadastral", "historicoEscolarSimplificado", "integralizacaoCurricular",
-		"solicitacaoMatricula","com/comprovanteMatricula", "com/historicoEscolarCRAprovados"}; 
+		"solicitacaoMatricula","com-comprovanteMatricula", "com-historicoEscolarCRAprovados"}; 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,7 @@ public class ActivityRelatorios extends Activity {
 
 	public void getPDF(int num){
 			Calendar c = Calendar.getInstance(); 
-			new HttpAsyncTask().execute("http://192.168.0.3:8080/Restful/aluno/pdf/"+num, tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
+			new HttpAsyncTask().execute("http://192.168.0.168:8080/Restful/aluno/pdf/"+num, tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
 	}
 
 	private String getData(Calendar c) {
@@ -113,8 +115,13 @@ public class ActivityRelatorios extends Activity {
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
 			inputStream = httpResponse.getEntity().getContent();
-			if (savePDF(fileName, inputStream))
+			if (savePDF(fileName, inputStream)) {
+				Log.i("Onde salvou?> ",getDownloadDir(fileName).getAbsolutePath());
+				File arquivo = getDownloadDir(fileName);
+				DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+				dm.addCompletedDownload(fileName, "Portal do Aluno Ufac: "+fileName, true, "application/pdf", arquivo.getAbsolutePath(), arquivo.length(), true);
 				return "PDF armazenado com successo";
+			}
 
 		} catch (Exception e) {
 			Log.d("InputStream", e.getLocalizedMessage());	
@@ -133,6 +140,8 @@ public class ActivityRelatorios extends Activity {
 				return false;
 			
 			outputStream = new FileOutputStream(getDownloadDir(fileName));
+				
+			
 			Log.i("STORAGE", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"");
 			 //fos = openFileOutput(fileName, Context.MODE_WORLD_WRITEABLE);
 			 //Log.i("STORAGE: ", "File= "+fileName+"\n"+fos.toString()+"\n"+fos.getFD().toString());
@@ -142,7 +151,9 @@ public class ActivityRelatorios extends Activity {
 			while ((read = inputStream.read(bytes)) != -1) {
 				outputStream.write(bytes, 0, read);
 			}
-
+			
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -193,6 +204,7 @@ public class ActivityRelatorios extends Activity {
 	}
 
 	private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+		
 		@Override
 		protected String doInBackground(String... dados) {
 			//[0] = url  [1] = nome do arquivo

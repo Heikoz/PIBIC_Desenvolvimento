@@ -17,14 +17,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import br.com.ufac.bean.Aluno;
 
 public class MainActivity extends Activity{
 	private EditText edtUsuario;
 	private EditText edtSenha;
-
+	ProgressBar progressBar;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,11 @@ public class MainActivity extends Activity{
 		setContentView(R.layout.tela_inicial);
 		edtUsuario = (EditText) findViewById(R.id.edtUsuario);
 		edtSenha = (EditText) findViewById(R.id.edtSenha);
-		edtUsuario.setText("95196986200");
-		edtSenha.setText("lukass13");
+		edtUsuario.setText("95744142215");
+		edtSenha.setText("JoaoNeto1");
+		
+		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+		
 	}
 
 	public void onClickCancel(View arg0) {
@@ -46,8 +52,16 @@ public class MainActivity extends Activity{
 		
 		String usuario = edtUsuario.getText().toString();
 		String senha = edtSenha.getText().toString();
-
+		Button btnLogin = (Button) findViewById(R.id.buttonLogin);
+		btnLogin.setEnabled(false);
 		new LongRunningGetIO(usuario, senha, this).execute();
+		
+		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+		progressBar.setVisibility(android.view.View.VISIBLE);
+		
+		
+		
+		
 	}
 
 	private class LongRunningGetIO extends AsyncTask <Void, Void, String> {
@@ -77,7 +91,7 @@ public class MainActivity extends Activity{
 		protected String doInBackground(Void... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			String url = "http://192.168.0.3:8080/Restful/aluno/"+username+"/"+password;
+			String url = "http://192.168.0.168:8080/Restful/aluno/"+username+"/"+password;
 			Log.i("Verificando URL", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;
