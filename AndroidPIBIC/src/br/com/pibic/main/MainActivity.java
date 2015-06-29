@@ -77,7 +77,7 @@ public class MainActivity extends Activity{
 		protected String doInBackground(Void... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			String url = "http://192.168.0.5:8080/Restful/aluno/"+username+"/"+password;
+			String url = "http://192.168.0.3:8080/Restful/aluno/"+username+"/"+password;
 			Log.i("Verificando URL", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;
@@ -86,9 +86,9 @@ public class MainActivity extends Activity{
 
 
 				HttpResponse response = httpClient.execute(httpGet);
-
+				Log.i("AQUI", "1");
 				HttpEntity entity = response.getEntity(); 
-
+				Log.i("AQUI", "2");
 				text = getASCIIContentFromEntity(entity);
 
 
@@ -99,6 +99,7 @@ public class MainActivity extends Activity{
 		}	
 
 		protected void onPostExecute(String results) {
+			Log.i("AQUI", "3");
 			if (results.equals("{}") || results == null || results.equals("null")){
 				Toast.makeText(getApplicationContext(), "Não foi encontrado nenhum usuário com esses dados...", Toast.LENGTH_LONG).show();
 				Log.i("PibicAPP", "Login ou senha incorreta.");

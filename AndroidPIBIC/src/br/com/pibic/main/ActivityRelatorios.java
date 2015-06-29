@@ -93,7 +93,7 @@ public class ActivityRelatorios extends Activity {
 
 	public void getPDF(int num){
 			Calendar c = Calendar.getInstance(); 
-			new HttpAsyncTask().execute("http://192.168.0.5:8080/Restful/aluno/pdf/"+num, tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
+			new HttpAsyncTask().execute("http://192.168.0.3:8080/Restful/aluno/pdf/"+num, tiposRelatorios[num]+"-"+aluno.getFirstName()+getData(c)+".pdf");
 	}
 
 	private String getData(Calendar c) {

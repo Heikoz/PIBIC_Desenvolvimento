@@ -8,6 +8,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,10 +60,7 @@ public class ActivityMenu extends Activity{
 			break;
 
 		case R.id.buttonHorarios:
-			intent = new Intent(HorariosAluno.ACAO_EXIBIR_HORARIOS);
-			intent.addCategory(HorariosAluno.CATEGORIA_HORARIOS);
-			intent.putExtra(HorariosAluno.HORARIO, getHorarios());
-			startActivity(intent);
+			novaTela();
 			break;
 
 		default:
@@ -71,7 +69,7 @@ public class ActivityMenu extends Activity{
 
 	}
 
-	private Horario getHorarios() {
+	private Horario novaTela() {
 		new LongRunningGetIO(this).execute();
 		return null;
 	}
@@ -99,7 +97,7 @@ public class ActivityMenu extends Activity{
 		protected String doInBackground(Void... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			String url = "http://192.168.0.5:8080/Restful/aluno/horarios";
+			String url = "http://192.168.0.3:8080/Restful/aluno/horarios";
 			Log.i("Verificando URLHorarios", url);
 			HttpGet httpGet = new HttpGet(url);
 			String text = null;
@@ -122,7 +120,7 @@ public class ActivityMenu extends Activity{
 			}else{			
 				if (results.length()>5 && !results.contains("refused")) {
 					Toast.makeText(getApplicationContext(), "Sucesso...", Toast.LENGTH_LONG).show();
-					activity.novaTela(results);
+					activity.getHorarios(results);
 				} else {
 					Toast.makeText(getApplicationContext(), "Problemas na conexão.", Toast.LENGTH_LONG).show();
 					Log.e("PibicAPP", "Erro de conexão. "+results);
@@ -136,23 +134,49 @@ public class ActivityMenu extends Activity{
 		finish();
 	}
 
-	public void novaTela(String results) {
-		Log.i("results: ", results);
-		Intent intent = new Intent(ActivityMenu.ACAO_EXIBIR_SAUDACAO_MENU);
-		intent.addCategory(ActivityMenu.CATEGORIA_SAUDACAO_MENU);
-
-		Aluno aluno = new Aluno();
+	public void getHorarios(String results) {
+		Log.i("results: ", results);			
+		horarios = new Horario();
 		JSONObject jo = null;
 		try {
-			//{"cpf":"951.969.862-00","deficiencia":"Sem DeficiÃªncia ","estado":"Acre ","nacionalidade":"Brasil ",
-			//"nascimento":"27/02/1994","naturalidade":"Rio Branco ","nome":"Vitor Lucas Pires Cordovil ",
-			//"nomeDaMae":"Rosa Maria Pinheiro Pires ","nomeDoPai":"JosÃ© Euclides Cordovil ","rg":"10491872","sexo":"Masculino "}
-
 			jo = new JSONObject(results);
-			//aluno.setRg(jo.getString("rg"));
-			//aluno.setSexo(jo.getString("sexo"));
-			//intent.putExtra(ActivityMenu.ALUNO, aluno);
-			//startActivity(intent);
+			JSONArray ja;
+
+			//{"quarta":["Engenharia de Software II T. A30-7P","Trabalho de Conclusão de Curso - TCC I T. A30-7P","Introdução à Inteligência Artificial T. A30-7P","Estágio Supervisionado T. A30-7P",""],"quinta":["Planos de Negócios em Informática T. A30-7P","Sistemas Distribuídos T. A30-7P","Estágio Supervisionado T. A30-7P","","Cálculo Diferencial e Integral V T. A84 3P"],"sabado":["","","","",""],"segunda":["Engenharia de Software II T. A30-7P","Introdução à Inteligência Artificial T. A30-7P","Estágio Supervisionado T. A30-7P","Estágio Supervisionado T. A30-7P","Cálculo Diferencial e Integral V T. A84 3P"],"sexta":["Contabilidade e Custos T. A30-5P","Interface Homem Máquina T. A30-7P","Ética e Legislação Aplicada à Informática T. A30-7P","",""],"tempo":["07:30 - 09:10","09:20 - 11:00","11:10 - 12:50","13:30 - 15:10","17:10 - 18:50"],"terca":["Estágio Supervisionado T. A30-7P","Interface Homem Máquina T. A30-7P","Sistemas Distribuídos T. A30-7P","",""]}
+			//
+			ja = jo.getJSONArray("tempo");
+			for (int i = 0; i < ja.length(); i++)
+				horarios.getTempo().add(ja.getString(i));
+
+			ja = jo.getJSONArray("segunda");
+			for (int i = 0; i < ja.length(); i++)
+				horarios.getSegunda().add(ja.getString(i));
+
+			ja = jo.getJSONArray("terca");
+			for (int i = 0; i < ja.length(); i++)
+				horarios.getTerca().add(ja.getString(i));
+
+			ja = jo.getJSONArray("quarta");
+			for (int i = 0; i < ja.length(); i++)
+				horarios.getQuarta().add(ja.getString(i));
+
+			ja = jo.getJSONArray("quinta");
+			for (int i = 0; i < ja.length(); i++)
+				horarios.getQuinta().add(ja.getString(i));
+
+			ja = jo.getJSONArray("sexta");
+			for (int i = 0; i < ja.length(); i++)
+				horarios.getSexta().add(ja.getString(i));
+
+			ja = jo.getJSONArray("sabado");
+			for (int i = 0; i < ja.length(); i++)
+				horarios.getSabado().add(ja.getString(i));
+			
+			Intent intent = new Intent();
+			intent = new Intent(ActivityHorarios.ACAO_EXIBIR_HORARIOS);
+			intent.addCategory(ActivityHorarios.CATEGORIA_HORARIOS);
+			intent.putExtra(ActivityHorarios.HORARIO, horarios);
+			startActivity(intent);
 
 		} catch (JSONException e) {
 			Toast.makeText(this, "ERRO", Toast.LENGTH_LONG).show();
